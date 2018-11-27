@@ -1,0 +1,15 @@
+# Setting Permanent Alias
+
+# Shows active alias's
+alias
+
+# edit the .bashrc or .bash_profile file
+nano ~/.bashrc
+
+# Declare your alias anywhere you like
+
+#########
+# Aliases
+#########
+
+alias ll="ls -lhA"
