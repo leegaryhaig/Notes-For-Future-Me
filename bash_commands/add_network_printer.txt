@@ -1,0 +1,53 @@
+#!/bin/bash
+# Simple script to automatically add printers from a print server to OSX
+
+
+# Get a list of printers from the print server (you need the tools installed):
+# smbclient -U username -W AD_server -L print_server
+
+# PPD's are 'driver' files that let you connect and set printer options
+PPDPATH="/Library/Printers/PPDs/Contents/Resources/"
+
+
+# This function looks up the PPD options available to the specified printer
+printerOptions(){
+	PRINTER="$1"
+
+	lpoptions \
+		-p "$1" \
+		-l
+
+# use AUTH=negotiate for kerberos
+# AUTH=negotiate
+# default to AUTH=none so the user is prompted for creds
+
+AUTH=none
+
+# This function finds and adds the printer with the PPD file
+printerOptions(){
+	PRINTER="$1"
+	PPD="$2"
+
+	lpadmin \
+		-p "$1" \
+		-v "smb://print_server/$PRINTER" \
+		-P "$2" \
+		-E \
+		-o printer-is-shared=false \
+		-o auth-info-required="$AUTH" \
+		"$3"
+	sudo killall -HUP cupsd
+
+# Here is an example call - call printerOptions and use printer name as the
+# argument to get a list of PPD options
+
+printerOptions "Name_of_the_printer"
+
+# Here is an example call = call addPrinter and use printer name as the first
+# arg, Use the $PPDPATH variable as shortcut to Mac's standard ppd path as 
+# second arg, Third Arg is optional for printer specific options.
+
+addPrinter "Name_of_the_printer" "$PPDPATH/Printer_name.PPD" "-o OptionVar=foo OptionVar2=True"
+
+
+
