@@ -1,3 +1,4 @@
+#!/bin/bash
 # Setting Permanent Alias
 
 # Shows active alias's
