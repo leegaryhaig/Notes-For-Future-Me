@@ -24,7 +24,7 @@ printerOptions(){
 AUTH=none
 
 # This function finds and adds the printer with the PPD file
-printerOptions(){
+addPrinter(){
 	PRINTER="$1"
 	PPD="$2"
 
